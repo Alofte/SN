@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://safnet.ir/sitemap.xml
+
+# Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block junk paths
+Disallow: /static/*?*
+Disallow: /admin/
+Disallow: /login
+Disallow: /dashboard/
