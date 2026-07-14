@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صف‌نت | سامانه نوبت‌دهی و مدیریت صف کلینیک — شروع رایگان</title>
+    <meta name="description" content="مدیریت هوشمند صف و نوبت‌دهی کلینیک با اطلاع‌رسانی پیامکی، نمایش صف روی مانیتور سالن انتظار و فراخوانی نوبت بیمار. نظم و آرامش را به کلینیک خود بازگردانید — ثبت‌نام رایگان.">
+    <meta property="og:title" content="صف‌نت — نوبت‌دهی هوشمند کلینیک">
+    <meta property="og:description" content="سامانه هوشمند مدیریت نوبت و صف کلینیک‌ها">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/safnet-og-image.png">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://safnet.ir/">
+    <link rel="alternate" hreflang="fa-IR" href="https://safnet.ir/">
+    <link rel="alternate" hreflang="fa" href="https://safnet.ir/">
+    <link rel="alternate" hreflang="x-default" href="https://safnet.ir/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="صف‌نت | سامانه نوبت‌دهی و مدیریت صف کلینیک">
+    <meta name="twitter:description" content="مدیریت هوشمند صف و نوبت‌دهی کلینیک با پیامک خودکار و نمایش صف روی مانیتور سالن انتظار.">
+    <meta name="twitter:image" content="https://safnet.ir/static/logo/safnet-og-image.png">
+    <meta name="author" content="صف‌نت">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="application-name" content="صف‌نت">
+    <meta name="apple-mobile-web-app-title" content="صف‌نت">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/android-chrome-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/android-chrome-512.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --indigo: #4f46e5;
+            --indigo-700: #4338ca;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+        }
+
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        body {
+            font-family: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            color: var(--slate-800);
+            background: var(--slate-50);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button, input { font-family: inherit; }
+        img, svg { display: block; max-width: 100%; }
+
+        /* ─── NAV ─── */
+        .nav {
+            position: fixed; top: 0; right: 0; left: 0; z-index: 100;
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(226,232,240,0.6);
+            transition: box-shadow 0.3s;
+        }
+        .nav.scrolled { box-shadow: 0 4px 30px rgba(15,23,42,0.06); }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 32px; height: 84px;
+            display: flex; justify-content: space-between;
+            align-items: center; gap: 32px;
+            position: relative;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 10px; }
+        .nav-logo svg { flex-shrink: 0; width: 40px; height: 40px; transform: translateY(3px); }
+        .nav-logo img { height: 54px; width: auto; display: block; }
+        .nav-center { 
+            display: flex; align-items: center; justify-content: center; gap: 32px;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .nav-center a {
+            font-size: 15px; font-weight: 600; color: var(--slate-600);
+            transition: color 0.2s; position: relative;
+        }
+        .nav-center a:hover { color: var(--indigo); }
+        .nav-center a.nav-equipped {
+            white-space: nowrap;
+        }
+
+        
+        /* Two-row nav at 980px and below to prevent overlap */
+        
+
+        .nav-links { display: flex; align-items: center; gap: 12px; justify-content: flex-end; }
+        .nav-links a {
+            font-size: 15px; font-weight: 600; color: var(--slate-600);
+            transition: color 0.2s; position: relative;
+        }
+        .nav-links a:hover { color: var(--indigo); }
+        .nav-links a.btn-nav, .nav-links a.btn-nav:hover { color: #fff; }
+        .btn-nav {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff; border: 1px solid rgba(255,255,255,0.18); border-radius: 14px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 2px 12px rgba(59,130,246,0.25);
+        }
+        .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.35); background: linear-gradient(135deg, #60a5fa, #a78bfa); }
+        .btn-order {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px;
+            background: #fff;
+            color: var(--indigo); border: 2px solid var(--slate-200); border-radius: 14px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-order:hover { border-color: var(--indigo); background: var(--slate-50); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79,70,229,0.12); }
+        .nav-links a.btn-order, .nav-links a.btn-order:hover { color: var(--indigo); }
+                .hero {
+            position: relative;
+            min-height: 100svh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 120px 28px 60px;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 900px 600px at 80% 20%, rgba(59,130,246,0.08), transparent),
+                radial-gradient(ellipse 700px 500px at 20% 60%, rgba(139,92,246,0.06), transparent),
+                radial-gradient(ellipse 500px 400px at 50% 80%, rgba(79,70,229,0.04), transparent);
+            pointer-events: none;
+        }
+        /* queue dot pattern */
+        .hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle 2.5px at center, rgba(99,102,241,0.1) 0%, rgba(99,102,241,0.1) 100%, transparent 100%);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 65% 55% at 50% 42%, black 10%, transparent 60%);
+            -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 42%, black 10%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-queue-path {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 740px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px 6px 8px;
+            background: rgba(79,70,229,0.06);
+            border: 1px solid rgba(79,70,229,0.12);
+            border-radius: 100px; margin-bottom: 28px;
+            font-size: 13px; font-weight: 500; color: var(--indigo);
+        }
+        .hero-badge-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--indigo);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+        .hero h1 {
+            font-size: clamp(28px, 6.5vw, 58px);
+            font-weight: 900; line-height: 1.25;
+            color: var(--slate-900);
+            margin-bottom: 20px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: clamp(16px, 2vw, 19px);
+            color: var(--slate-500); line-height: 1.8;
+            max-width: 560px; margin: 0 auto 40px;
+        }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 15px 36px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 30px rgba(59,130,246,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(59,130,246,0.4); background: linear-gradient(135deg, #60a5fa, #a78bfa); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 15px 36px;
+            background: #fff; color: var(--slate-700);
+            border: 1px solid var(--slate-200); border-radius: 14px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(15,23,42,0.04);
+        }
+        .btn-secondary:hover { border-color: var(--slate-300); box-shadow: 0 8px 24px rgba(15,23,42,0.08); transform: translateY(-1px); }
+
+        /* floating queue tickets */
+        .hero-ticket {
+            position: absolute; pointer-events: none; z-index: 2;
+            padding: 10px 16px; border-radius: 14px;
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(226,232,240,0.7);
+            box-shadow: 0 8px 32px rgba(15,23,42,0.07);
+            font-size: 12px; font-weight: 600; color: var(--slate-500);
+            display: flex; align-items: center; gap: 10px;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            animation: float-ticket 5s ease-in-out infinite;
+        }
+        .hero-ticket-1 { top: 18%; right: 8%; animation-delay: 0s; }
+        .hero-ticket-2 { bottom: 32%; left: 6%; animation-delay: 1.8s; }
+        .hero-ticket-3 { top: 30%; left: 10%; animation-delay: 3.2s; }
+        .hero-ticket-4 { bottom: 22%; right: 10%; animation-delay: 0.8s; }
+        .ticket-num {
+            width: 30px; height: 30px; border-radius: 9px;
+            display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff; font-size: 13px; font-weight: 800;
+            flex-shrink: 0;
+        }
+        .ticket-num.green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .ticket-num.amber { background: linear-gradient(135deg, #f59e0b, #ea580c); }
+        @keyframes float-ticket {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar { min-height: 140px;
+            position: relative; z-index: 2;
+            max-width: 900px; margin: -40px auto 0;
+            padding: 32px 40px;
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(15,23,42,0.06);
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-size: 34px; font-weight: 900;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            min-height: 42px;
+        }
+        .stat-num.loading {
+            background: linear-gradient(90deg, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .stat-label { font-size: 13px; color: var(--slate-400); margin-top: 4px; font-weight: 500; }
+
+        /* ─── SECTION COMMON ─── */
+        section { content-visibility: auto; contain-intrinsic-size: 1px 800px; }
+        .section {
+            padding: 100px 28px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 13px; font-weight: 600; color: var(--indigo);
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800; color: var(--slate-900);
+            line-height: 1.3; margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 17px; color: var(--slate-500);
+            line-height: 1.8; max-width: 540px;
+        }
+        .section-header { margin-bottom: 60px; }
+
+        /* ─── FEATURES ─── */
+        #features { background: #fff; border-top: 1px solid var(--slate-100); border-bottom: 1px solid var(--slate-100); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            padding: 32px 28px;
+            background: var(--slate-50);
+            border: 1px solid var(--slate-100);
+            border-radius: 18px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            background: #fff;
+            border-color: rgba(79,70,229,0.15);
+            box-shadow: 0 12px 40px rgba(79,70,229,0.08);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: grid; place-items: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .feature-icon.blue    { background: rgba(59,130,246,0.1); color: var(--blue); }
+        .feature-icon.purple  { background: rgba(139,92,246,0.1); color: var(--purple); }
+        .feature-icon.green   { background: rgba(34,197,94,0.1);  color: #22c55e; }
+        .feature-icon.amber   { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .feature-icon.rose    { background: rgba(244,63,94,0.1);  color: #f43f5e; }
+        .feature-icon.cyan    { background: rgba(6,182,212,0.1);  color: #06b6d4; }
+        .feature-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--slate-800); }
+        .feature-desc { font-size: 14px; color: var(--slate-500); line-height: 1.75; }
+
+        /* ─── EQUIPPED CENTERS ─── */
+        #equipped-centers {
+            background: var(--slate-50);
+            border-bottom: 1px solid var(--slate-100);
+        }
+        /* ─── CLINICS SLIDER (clean RTL scroll-snap) ─── */
+        .clinics-slider {
+            position: relative;
+            margin: 0 -28px;
+            padding: 0 68px;
+        }
+        .clinics-track {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 540px;
+            gap: 28px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 8px 0 24px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99,102,241,0.35) transparent;
+            direction: rtl;
+        }
+        .clinics-track > * {
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+        .clinics-track::-webkit-scrollbar { height: 8px; }
+        .clinics-track::-webkit-scrollbar-track { background: transparent; border-radius: 8px; }
+        .clinics-track::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            border-radius: 8px;
+        }
+        .clinic-card {
+            width: 540px;
+            height: 540px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--slate-200);
+            background: var(--slate-100);
+        }
+        .clinic-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+        }
+        .clinic-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,23,42,0.25) 0%, rgba(15,23,42,0.05) 40%, transparent 65%);
+            pointer-events: none;
+        }
+        .clinics-nav {
+            position: absolute;
+            top: 270px;
+            z-index: 10;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            color: var(--slate-700);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+            transition: all 0.25s ease;
+        }
+        .clinics-nav:hover {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            border-color: transparent;
+            transform: scale(1.08);
+            box-shadow: 0 12px 28px rgba(79,70,229,0.35);
+        }
+        .clinics-nav:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+            transform: none;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+            background: #fff;
+            color: var(--slate-700);
+            border-color: var(--slate-200);
+        }
+        /* RTL: prev (right-pointing chevron) on RIGHT, next (left-pointing) on LEFT */
+        .clinics-prev { right: 8px; }
+        .clinics-next { left: 8px; }
+
+        /* tablet */
+        
+        
+        
+
+        
+
+        /* ─── HOW IT WORKS ─── */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            position: relative;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 44px;
+            right: 12%;
+            left: 12%;
+            height: 3px;
+            background: linear-gradient(to left, var(--blue), var(--purple));
+            opacity: 0.25;
+            border-radius: 3px;
+        }
+        .step {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 20px;
+            background: #fff;
+            border: 1px solid var(--slate-100);
+            border-radius: 22px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .step:hover {
+            border-color: rgba(79,70,229,0.2);
+            box-shadow: 0 14px 40px rgba(79,70,229,0.1);
+            transform: translateY(-4px);
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 88px; height: 88px; border-radius: 22px;
+            display: grid; place-items: center;
+            font-size: 32px; font-weight: 900; color: #fff;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            box-shadow: 0 12px 30px rgba(79,70,229,0.3);
+            position: relative; z-index: 2;
+            margin-bottom: 24px;
+        }
+        .step-body h3 {
+            font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--slate-800);
+        }
+        .step-body p { font-size: 14px; color: var(--slate-500); line-height: 1.85; }
+
+        /* ─── SHOWCASE ─── */
+        .showcase-wrap {
+            background: linear-gradient(135deg, var(--slate-900), #1a1040);
+            border-radius: 28px;
+            padding: 60px 48px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 48px; align-items: stretch;
+            position: relative; overflow: hidden;
+        }
+        .showcase-wrap::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 400px 300px at 80% 20%, rgba(59,130,246,0.15), transparent),
+                radial-gradient(ellipse 300px 250px at 20% 80%, rgba(139,92,246,0.12), transparent);
+            pointer-events: none;
+        }
+        .showcase-text { position: relative; z-index: 2; }
+        .showcase-text h2 { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.4; }
+        .showcase-text p { font-size: 15px; color: var(--slate-400); line-height: 1.8; margin-bottom: 28px; }
+        .showcase-features { display: flex; flex-direction: column; gap: 14px; }
+        .showcase-feat {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 14px; color: rgba(255,255,255,0.8); font-weight: 500;
+        }
+        .showcase-feat svg { flex-shrink: 0; color: #34d399; }
+        .showcase-visual {
+            position: relative; z-index: 2;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 32px;
+            backdrop-filter: blur(8px);
+        }
+        .mock-ui {
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .mock-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .mock-row:hover { background: rgba(255,255,255,0.08); }
+        .mock-num {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: grid; place-items: center;
+            font-size: 13px; font-weight: 700; color: #fff;
+        }
+        .mock-num.active  { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .mock-num.waiting { background: linear-gradient(135deg, var(--blue), var(--purple)); }
+        .mock-num.next    { background: rgba(255,255,255,0.1); }
+        .mock-info { flex: 1; }
+        .mock-name { font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 600; }
+        .mock-detail { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+        .mock-status {
+            font-size: 11px; font-weight: 600;
+            padding: 4px 10px; border-radius: 6px;
+        }
+        .mock-status.active  { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .mock-status.waiting { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .mock-status.next    { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+
+        /* ─── TESTIMONIALS ─── */
+        #testimonials { background: #fff; border-top: 1px solid var(--slate-100); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .testimonial-card {
+            padding: 28px;
+            background: var(--slate-50);
+            border: 1px solid var(--slate-100);
+            border-radius: 18px;
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover { background: #fff; box-shadow: 0 8px 30px rgba(15,23,42,0.06); transform: translateY(-2px); }
+        .testimonial-stars { display: flex; gap: 3px; margin-bottom: 14px; }
+        .testimonial-stars svg { color: #fbbf24; }
+        .testimonial-text { font-size: 14px; color: var(--slate-600); line-height: 1.8; margin-bottom: 20px; }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .testimonial-avatar {
+            width: 42px; height: 42px; border-radius: 12px;
+            display: grid; place-items: center;
+            font-size: 16px; font-weight: 700; color: #fff;
+        }
+        .testimonial-name { font-size: 14px; font-weight: 700; color: var(--slate-800); }
+        .testimonial-role { font-size: 12px; color: var(--slate-400); }
+
+        /* ─── CTA ─── */
+        .cta-section {
+            padding: 100px 28px;
+            text-align: center;
+        }
+        .cta-box {
+            max-width: 700px; margin: 0 auto;
+            padding: 60px 48px;
+            background: linear-gradient(135deg, var(--indigo), var(--indigo-700));
+            border-radius: 28px;
+            position: relative; overflow: hidden;
+        }
+        .cta-box::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 500px 300px at 100% 100%, rgba(255,255,255,0.12), transparent),
+                radial-gradient(ellipse 400px 250px at 0% 0%, rgba(255,255,255,0.08), transparent);
+            pointer-events: none;
+        }
+        .cta-box h2 {
+            font-size: clamp(26px, 4vw, 36px);
+            font-weight: 800; color: #fff;
+            margin-bottom: 14px; position: relative;
+        }
+        .cta-box p {
+            font-size: 16px; color: rgba(255,255,255,0.75);
+            line-height: 1.7; margin-bottom: 32px; position: relative;
+        }
+        .btn-white {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 15px 40px;
+            background: #fff; color: var(--indigo);
+            border: none; border-radius: 14px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; position: relative;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: var(--slate-900);
+            padding: 60px 28px 28px;
+            color: var(--slate-400);
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px;
+        }
+        .footer-brand p { font-size: 14px; line-height: 1.8; margin-top: 16px; max-width: 300px; }
+        .footer-col h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+        .footer-col a { display: block; font-size: 13px; color: var(--slate-400); padding: 5px 0; transition: color 0.2s; }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom {
+            max-width: 1200px; margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 12px; color: var(--slate-500);
+        }
+
+        /* ─── LIVE TICKER ─── */
+        .live-ticker {
+            position: fixed; top: 84px; left: 0; right: 0; z-index: 99;
+            background: linear-gradient(90deg, var(--slate-900), #1e1b4b, var(--slate-900));
+            padding: 9px 0; overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ticker-track {
+            display: flex; gap: 48px; width: max-content;
+            will-change: transform;
+        }
+        .ticker-item {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+        }
+        .ticker-item strong { color: rgba(255,255,255,0.85); font-weight: 700; }
+        .ticker-dot {
+            width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+        }
+        .ticker-dot.green { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+        .ticker-dot.blue { background: var(--blue); box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+        .ticker-dot.purple { background: var(--purple); box-shadow: 0 0 8px rgba(139,92,246,0.5); }
+
+
+        /* ─── COMPARE ─── */
+        .compare-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 28px; max-width: 880px; margin: 0 auto;
+        }
+        .compare-card {
+            padding: 36px 32px; border-radius: 20px;
+            border: 1px solid var(--slate-200);
+        }
+        .compare-card.before {
+            background: linear-gradient(145deg, #fef2f2, #fff1f2);
+            border-color: rgba(244,63,94,0.15);
+        }
+        .compare-card.after {
+            background: linear-gradient(145deg, #f0fdf4, #ecfdf5);
+            border-color: rgba(34,197,94,0.15);
+        }
+        .compare-header {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 24px; font-size: 18px; font-weight: 800;
+        }
+        .compare-card.before .compare-header { color: #e11d48; }
+        .compare-card.after .compare-header { color: #16a34a; }
+        .compare-header svg { flex-shrink: 0; }
+        .compare-list { display: flex; flex-direction: column; gap: 14px; }
+        .compare-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 14px; line-height: 1.65;
+        }
+        .compare-card.before .compare-item { color: var(--slate-600); }
+        .compare-card.after .compare-item { color: var(--slate-700); font-weight: 500; }
+        .cmp-icon {
+            width: 24px; height: 24px; border-radius: 7px;
+            display: grid; place-items: center; flex-shrink: 0; margin-top: 1px;
+        }
+        .compare-card.before .cmp-icon { background: rgba(244,63,94,0.1); color: #f43f5e; }
+        .compare-card.after .cmp-icon { background: rgba(34,197,94,0.1); color: #22c55e; }
+
+        /* ─── FAQ ─── */
+        .faq-grid { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .faq-item {
+            background: #fff; border: 1px solid var(--slate-100);
+            border-radius: 16px; overflow: hidden; transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(79,70,229,0.15); }
+        .faq-item.open { border-color: rgba(79,70,229,0.2); box-shadow: 0 8px 30px rgba(79,70,229,0.06); }
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 24px; cursor: pointer;
+            font-size: 15px; font-weight: 600; color: var(--slate-800);
+            gap: 16px; user-select: none;
+        }
+        .faq-q:hover { color: var(--indigo); }
+        .faq-chevron {
+            width: 20px; height: 20px; flex-shrink: 0;
+            transition: transform 0.35s; color: var(--slate-400);
+        }
+        .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--indigo); }
+        .faq-a {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .faq-item.open .faq-a { max-height: 300px; }
+        .faq-a-inner {
+            padding: 0 24px 22px;
+            font-size: 14px; color: var(--slate-500); line-height: 1.9;
+        }
+
+        /* ─── MICRO-INTERACTIONS ─── */
+        .feature-card:hover .feature-icon { animation: icon-bounce 0.5s ease; }
+        @keyframes icon-bounce {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.2) rotate(-5deg); }
+            70% { transform: scale(0.95) rotate(2deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .btn-primary, .btn-nav, .btn-white, .btn-pricing.filled { position: relative; overflow: hidden; }
+        .btn-primary::after, .btn-nav::after, .btn-white::after, .btn-pricing.filled::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+        }
+        .btn-primary:hover::after, .btn-nav:hover::after, .btn-white:hover::after, .btn-pricing.filled:hover::after {
+            animation: shimmer 0.75s ease;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 150%; }
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .fade-up {
+            opacity: 0; transform: translate3d(0,32px,0);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            will-change: opacity, transform;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── FLOATING CTA ─── */
+        .floating-cta {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            transform: translateY(100%);
+            z-index: 999; display: none;
+            transition: transform 0.3s ease;
+            padding: 12px 16px;
+            background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        }
+        .floating-cta.visible {
+            transform: translateY(0);
+        }
+        .floating-cta a {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 16px 28px; font-size: 15px; font-weight: 700;
+            background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
+            color: white; border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease; width: 100%;
+        }
+        .floating-cta a:hover {
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+
+    
+
+        /* ══════════ RESPONSIVE: TABLET & MOBILE ══════════ */
+
+        @media (max-width: 1100px) {
+            .nav-inner { padding: 0 20px; gap: 20px; }
+            .nav-center { gap: 16px; }
+            .nav-center a { font-size: 14px; }
+            .btn-nav, .btn-order { padding: 10px 20px; font-size: 14px; }
+            .nav-logo img { height: 46px; }
+            .clinic-card { width: 420px; height: 420px; }
+            .clinics-track { grid-auto-columns: 420px; gap: 22px; }
+            .clinics-nav { top: 210px; width: 46px; height: 46px; }
+        }
+
+        @media (max-width: 980px) {
+            /* Switch nav to 2 rows */
+            .nav-inner {
+                height: auto; min-height: 64px;
+                padding: 10px 18px 0;
+                flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px;
+            }
+            .nav-logo { gap: 8px; flex: 1; min-width: 0; }
+            .nav-logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+            .nav-logo img { height: 40px; width: auto; }
+            .nav-center {
+                display: flex; position: static; transform: none;
+                order: 3; width: 100%; justify-content: flex-start; gap: 8px;
+                overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+                padding: 8px 0 12px;
+                mask-image: linear-gradient(to left, transparent, black 14px, black calc(100% - 14px), transparent);
+                -webkit-mask-image: linear-gradient(to left, transparent, black 14px, black calc(100% - 14px), transparent);
+            }
+            .nav-center::-webkit-scrollbar { display: none; }
+            .nav-center a {
+                flex-shrink: 0; font-size: 13px; padding: 8px 14px;
+                background: var(--slate-100); border-radius: 100px; color: var(--slate-600); white-space: nowrap;
+            }
+            .nav-center a:hover { color: var(--indigo); background: rgba(79,70,229,0.08); }
+            .btn-order { display: none; }
+            .nav-links { flex-shrink: 0; gap: 8px; }
+            .btn-nav { padding: 9px 16px; font-size: 13px; gap: 6px; border-radius: 12px; white-space: nowrap; }
+            .btn-nav svg { width: 14px; height: 14px; }
+            body { padding-bottom: 80px; }
+            .floating-cta { display: block; }
+            .live-ticker { display: none; }
+
+            /* Hero */
+            .hero { padding-top: 170px; min-height: 90vh; }
+            .hero-ticket-3, .hero-ticket-4 { display: none; }
+            .clinic-card { width: 360px; height: 360px; }
+            .clinics-track { grid-auto-columns: 360px; gap: 18px; }
+            .clinics-nav { top: 180px; width: 42px; height: 42px; }
+
+            /* Stack layouts */
+            .features-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: 1fr; gap: 18px; }
+            .showcase-wrap {
+                grid-template-columns: 1fr !important;
+                grid-template-areas: "text" "visual";
+                padding: 32px 24px; gap: 28px; border-radius: 24px;
+            }
+            .showcase-text { grid-area: text; }
+            .showcase-visual { grid-area: visual; overflow: hidden; }
+            .steps { grid-template-columns: 1fr; gap: 18px; max-width: 500px; margin: 0 auto; }
+            .steps::before { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            * { -webkit-tap-highlight-color: transparent; }
+
+            /* NAV */
+            .nav { backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); }
+            .nav-inner { min-height: 56px; padding: 8px 14px 0; gap: 6px; }
+            .nav-logo { gap: 6px; }
+            .nav-logo svg { width: 30px; height: 30px; transform: translateY(1px); }
+            .nav-logo img { height: 34px; }
+            .nav-center { gap: 6px; padding: 6px 0 10px; }
+            .nav-center a { font-size: 12px; padding: 7px 12px; }
+            .nav-links { gap: 6px; }
+            .btn-nav { padding: 8px 13px; font-size: 12px; gap: 5px; border-radius: 10px; }
+            .btn-nav svg { width: 13px; height: 13px; }
+
+            /* HERO */
+            .hero { padding: 90px 20px 40px; min-height: 100svh; }
+            .hero-badge { font-size: 11px; padding: 5px 14px 5px 7px; margin-bottom: 22px; }
+            .hero h1 { font-size: clamp(30px, 9vw, 42px); line-height: 1.3; margin-bottom: 18px; letter-spacing: -0.5px; }
+            .hero-sub { font-size: 14px; line-height: 2; margin-bottom: 32px; max-width: 420px; margin-left: auto; margin-right: auto; }
+            .hero-actions { gap: 10px; flex-wrap: wrap; justify-content: center; }
+            .btn-primary, .btn-secondary { padding: 13px 24px; font-size: 14px; border-radius: 13px; min-width: 150px; justify-content: center; }
+
+            /* STATS */
+            .stats-bar { min-height: 140px; grid-template-columns: 1fr; gap: 18px; padding: 22px 20px; margin: 0 16px; border-radius: 18px; }
+            .stat-num { font-size: 28px; }
+            .stat-label { font-size: 12px; }
+
+            /* SECTIONS */
+            .section { padding: 56px 16px; }
+            .section-header { margin-bottom: 28px; text-align: center; }
+            .section-label { font-size: 11px; letter-spacing: 1.5px; justify-content: center; margin-bottom: 8px; }
+            .section-title { font-size: 22px; line-height: 1.4; margin-bottom: 12px; }
+            .section-desc { font-size: 14px; line-height: 1.9; margin: 0 auto; max-width: 100%; }
+
+            /* FEATURES */
+            .features-grid { grid-template-columns: 1fr; gap: 12px; }
+            .feature-card { padding: 22px 18px; border-radius: 16px; }
+            .feature-icon { width: 44px; height: 44px; border-radius: 12px; margin-bottom: 14px; font-size: 20px; }
+            .feature-title { font-size: 16px; }
+            .feature-desc { font-size: 13px; line-height: 1.8; }
+
+            /* CLINICS SLIDER */
+            .clinics-slider { margin: 0 -16px; padding: 0 44px; }
+            .clinics-track {
+                grid-auto-columns: 220px; gap: 12px; padding: 4px 0 14px;
+                direction: rtl;
+            }
+            .clinic-card { width: 220px; height: 220px; border-radius: 16px; }
+            .clinics-nav {
+                display: grid !important;
+                width: 32px; height: 32px; top: 108px;
+                border: none; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+                box-shadow: 0 4px 12px rgba(15,23,42,0.2);
+            }
+            .clinics-nav svg { width: 15px; height: 15px; }
+            .clinics-prev { right: 6px; }
+            .clinics-next { left: 6px; }
+
+            /* COMPARE */
+            .compare-card { padding: 22px 18px; border-radius: 16px; }
+            .compare-header { font-size: 16px; margin-bottom: 16px; }
+            .compare-item { font-size: 13px; line-height: 1.85; gap: 8px; }
+            .cmp-icon { width: 22px; height: 22px; }
+
+            /* STEPS */
+            .step { padding: 22px 18px; border-radius: 18px; }
+            .step-num { width: 64px; height: 64px; border-radius: 16px; font-size: 22px; margin-bottom: 16px; }
+            .step-body h3 { font-size: 16px; margin-bottom: 8px; }
+            .step-body p { font-size: 13px; line-height: 1.85; }
+
+            /* SHOWCASE (critical: prevent overlap) */
+            .showcase-wrap {
+                grid-template-columns: 1fr !important;
+                grid-template-rows: auto auto;
+                padding: 26px 18px; gap: 22px; border-radius: 20px;
+                overflow: hidden;
+            }
+            .showcase-text h2 { font-size: 20px; line-height: 1.45; margin-bottom: 12px; }
+            .showcase-text p { font-size: 13px; line-height: 1.9; margin-bottom: 18px; }
+            .showcase-features { gap: 10px; }
+            .showcase-feat { font-size: 12px; gap: 8px; }
+            .showcase-visual {
+                padding: 16px 14px; border-radius: 14px;
+                width: 100%;
+                overflow: hidden;
+            }
+            .mock-ui { gap: 10px; }
+            .mock-row { padding: 10px; gap: 8px; display: flex; align-items: center; }
+            .mock-num { width: 28px; height: 28px; font-size: 12px; border-radius: 7px; flex-shrink: 0; }
+            .mock-info { min-width: 0; flex: 1; }
+            .mock-name { font-size: 12px; }
+            .mock-detail { font-size: 10px; }
+            .mock-status { font-size: 9px; padding: 3px 7px; flex-shrink: 0; }
+
+            /* TESTIMONIALS */
+            .testimonial-card { padding: 22px 18px; border-radius: 16px; }
+            .testimonial-stars { margin-bottom: 12px; }
+            .testimonial-text { font-size: 13px; line-height: 1.9; margin-bottom: 16px; }
+            .testimonial-avatar { width: 38px; height: 38px; border-radius: 10px; font-size: 14px; }
+            .testimonial-name { font-size: 13px; }
+            .testimonial-role { font-size: 11px; }
+
+            /* FAQ */
+            .faq-grid { gap: 10px; }
+            .faq-item { border-radius: 14px; }
+            .faq-q { padding: 15px 16px; font-size: 13px; gap: 10px; }
+            .faq-chevron { width: 18px; height: 18px; }
+            .faq-a-inner { padding: 0 16px 16px; font-size: 13px; line-height: 1.9; }
+
+            /* CTA */
+            .cta-section { padding: 56px 16px; }
+            .cta-box { padding: 36px 22px; border-radius: 22px; }
+            .cta-box h2 { font-size: 22px; line-height: 1.4; margin-bottom: 12px; }
+            .cta-box p { font-size: 14px; line-height: 1.9; margin-bottom: 24px; }
+            .btn-white { padding: 13px 26px; font-size: 14px; border-radius: 12px; }
+
+            /* FOOTER */
+            .footer { padding: 40px 16px 24px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 26px; }
+            .footer-brand p { font-size: 13px; max-width: 100%; margin-top: 12px; }
+            .footer-col h4 { font-size: 13px; margin-bottom: 10px; }
+            .footer-col a { font-size: 12px; padding: 4px 0; }
+            .footer-bottom { flex-direction: column; gap: 6px; text-align: center; margin-top: 26px; padding-top: 16px; font-size: 11px; }
+
+            /* FLOATING CTA */
+            .floating-cta { padding: 10px 12px; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+            .floating-cta a { padding: 14px 20px; font-size: 14px; border-radius: 12px; }
+
+            /* Hero decorative: show smaller versions on mobile */
+            .hero { padding: 100px 20px 50px; min-height: 100svh; }
+            .hero-queue-path { display: block; opacity: 0.5; }
+            .hero-ticket { display: flex; padding: 7px 10px; font-size: 10px; border-radius: 10px; gap: 7px; }
+            .ticket-num { width: 22px; height: 22px; font-size: 10px; border-radius: 7px; }
+            .hero-ticket-1 { top: 28%; right: 4%; }
+            .hero-ticket-2 { bottom: 16%; left: 4%; }
+            .hero-ticket-3 { display: none; }
+            .hero-ticket-4 { display: none; }
+            html { scroll-behavior: auto; }
+            .clinics-track { scroll-behavior: auto; }
+        }
+
+    </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://safnet.ir/#organization",
+      "name": "صف‌نت",
+      "url": "https://safnet.ir",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://safnet.ir/static/logo/safnet-logo-light-2x.png",
+        "width": 320,
+        "height": 108
+      },
+      "description": "سامانه هوشمند مدیریت نوبت و صف کلینیک‌ها با اطلاع‌رسانی پیامکی و نمایش صف روی مانیتور سالن انتظار",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+98-915-435-1614",
+        "contactType": "sales",
+        "availableLanguage": [
+          "Persian",
+          "Farsi"
+        ]
+      },
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://safnet.ir/#website",
+      "url": "https://safnet.ir",
+      "name": "صف‌نت",
+      "publisher": {
+        "@id": "https://safnet.ir/#organization"
+      },
+      "inLanguage": "fa-IR"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://safnet.ir/#webpage",
+      "url": "https://safnet.ir",
+      "name": "صف‌نت | سامانه نوبت‌دهی و مدیریت صف کلینیک",
+      "description": "مدیریت هوشمند صف و نوبت‌دهی کلینیک با اطلاع‌رسانی پیامکی و نمایش صف روی مانیتور سالن انتظار.",
+      "isPartOf": {
+        "@id": "https://safnet.ir/#website"
+      },
+      "about": {
+        "@id": "https://safnet.ir/#organization"
+      },
+      "inLanguage": "fa-IR"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "صف‌نت",
+      "alternateName": "SafNet",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "SchedulingSoftware",
+      "operatingSystem": "Web",
+      "description": "سامانه هوشمند مدیریت نوبت، صف و اطلاع‌رسانی کلینیک‌ها و مراکز درمانی با نمایش صف روی مانیتور سالن انتظار و ارسال پیامک خودکار به بیماران.",
+      "url": "https://safnet.ir",
+      "provider": {
+        "@id": "https://safnet.ir/#organization"
+      },
+      "inLanguage": "fa-IR",
+      "softwareVersion": "2.0",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR",
+        "description": "شروع رایگان و مشاوره رایگان"
+      },
+      "featureList": "مدیریت صف هوشمند; پذیرش سریع بیماران; اطلاع‌رسانی پیامکی; نمایش صف روی مانیتور سالن انتظار; فراخوانی نوبت; تخمین زمان انتظار; گزارش‌های تحلیلی",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "120",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "صف‌نت دقیقاً چه کاری انجام می‌دهد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "صف‌نت یک سامانه هوشمند مدیریت صف و نوبت‌دهی مخصوص کلینیک‌ها و مراکز درمانی است. با صف‌نت می‌توانید بیماران را پذیرش کنید، شماره نوبت اختصاص دهید، وضعیت صف را لحظه‌ای مشاهده کنید و از طریق پیامک و نمایش روی مانیتور سالن انتظار بیماران را از نزدیک شدن نوبتشان مطلع سازید."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا برای استفاده از صف‌نت نیاز به نصب نرم‌افزار خاصی هست؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "خیر. صف‌نت یک سامانه تحت وب است و تنها به یک مرورگر اینترنت نیاز دارید. هیچ نرم‌افزاری نیاز به نصب ندارد و از هر دستگاهی — کامپیوتر، لپ‌تاپ، تبلت یا موبایل — قابل دسترسی است."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هزینه استفاده از صف‌نت چقدر است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "صف‌نت پلن‌های متنوعی متناسب با اندازه و نیاز کلینیک شما ارائه می‌دهد. برای دریافت مشاوره رایگان و اطلاع از قیمت‌ها با تیم فروش ما تماس بگیرید. همچنین امکان استفاده آزمایشی رایگان وجود دارد."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا صف‌نت روی موبایل و تبلت کار می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "بله، صف‌نت کاملاً واکنش‌گرا طراحی شده و روی تمام دستگاه‌ها از جمله موبایل، تبلت و کامپیوتر به‌درستی کار می‌کند. پرسنل پذیرش می‌توانند حتی با گوشی موبایل صف را مدیریت کنند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "سیستم پیامکی صف‌نت چگونه کار می‌کند؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "صف‌نت به‌صورت خودکار در زمان‌های مشخصی به بیماران پیامک ارسال می‌کند: هنگام ثبت نوبت (تأیید)، نزدیک شدن نوبت (یادآوری)، و زمانی که نوبت بیمار فرا رسیده باشد. همچنین اسامی و شماره نوبت‌ها روی مانیتور سالن انتظار نمایش داده می‌شود."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا اطلاعات بیماران در صف‌نت امن است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "امنیت اطلاعات اولویت اصلی ماست. صف‌نت از رمزنگاری پیشرفته، احراز هویت چندسطحی، حفاظت CSRF، محدودیت نرخ درخواست و سیستم قفل حساب استفاده می‌کند."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "آیا صف‌نت برای مطب‌های کوچک هم مناسب است؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "قطعاً بله. صف‌نت برای مطب‌های تک‌پزشک تا کلینیک‌های بزرگ چندتخصصی طراحی شده. رابط کاربری ساده و بدون پیچیدگی آن باعث می‌شود حتی بدون دانش فنی بتوانید از آن استفاده کنید."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "راه‌اندازی صف‌نت چقدر طول می‌کشد؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "راه‌اندازی صف‌نت بسیار سریع است. پس از ثبت‌نام، تنها کافی است اطلاعات کلینیک را وارد کنید. کل فرایند در کمتر از ۵ دقیقه انجام می‌شود و بلافاصله می‌توانید شروع به پذیرش بیماران کنید."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">
+            <svg width="44" height="44" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gl" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><rect width="64" height="64" rx="17" fill="url(#gl)"/><circle cx="17" cy="44" r="5" fill="#fff" opacity=".22"/><circle cx="31" cy="32" r="6.5" fill="#fff" opacity=".5"/><circle cx="46" cy="19" r="8.5" fill="#fff" opacity=".95"/></svg>
+            <img src="https://raw.githubusercontent.com/Alofte/SN/main/Assets/logo/safnet-logo-light-2x.png" alt="صف‌نت – سامانه مدیریت نوبت و صف کلینیک" width="160" height="54" fetchpriority="high" />
+        </a>
+        <div class="nav-center">
+            <a href="#features">امکانات</a>
+            <a href="#equipped-centers" class="nav-equipped">مراکز مجهز</a>
+            <a href="#how-it-works">نحوه کار</a>
+            <a href="#faq">سؤالات</a>
+        </div>
+        <div class="nav-links">
+            <a href="tel:+989154351614" class="btn-order">
+                ثبت سفارش
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn-nav">
+                ورود به پنل
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h4"/><polyline points="14 7 9 12 14 17"/><line x1="9" y1="12" x2="21" y2="12"/></svg>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════ FLOATING CTA (MOBILE) ══════════ -->
+<div class="floating-cta" id="floatingCta">
+    <a href="tel:+989154351614">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        ثبت سفارش رایگان
+    </a>
+</div>
+
+<!-- ══════════ LIVE TICKER ══════════ -->
+<div class="live-ticker">
+    <div class="ticker-track">
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک آریا — <strong>۳ بیمار</strong> در صف</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>آخرین نوبت ثبت‌شده: <strong>۲ دقیقه پیش</strong></div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>کلینیک پارس <strong>آنلاین</strong></div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک نور — <strong>۷ بیمار</strong> ویزیت شدند</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span><strong>۱۲ کلینیک</strong> الان فعال هستند</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>امروز <strong>۱۸۴ نوبت</strong> ثبت شده</div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>درمانگاه سینا — <strong>۵ بیمار</strong> در انتظار</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>میانگین زمان انتظار: <strong>۸ دقیقه</strong></div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>کلینیک مهر <strong>آنلاین</strong></div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>مطب دکتر احمدی — <strong>۲ بیمار</strong> در صف</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>نوبت شماره <strong>۴۷</strong> صدا زده شد</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>درمانگاه رازی — <strong>۱۱ ویزیت</strong> امروز</div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک فردوس — <strong>بدون صف</strong></div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>پیامک یادآوری <strong>۳۶ بیمار</strong> ارسال شد</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>مطب دکتر رضایی <strong>آنلاین</strong></div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک شفا — <strong>۴ بیمار</strong> در صف</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>امروز <strong>۵۲ پیامک</strong> ارسال شده</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>درمانگاه امام رضا — <strong>۹ ویزیت</strong> انجام شد</div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>مطب دکتر کریمی — <strong>۱ بیمار</strong> در انتظار</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span><strong>۲۳ کلینیک</strong> در حال استفاده</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>این هفته <strong>۱٬۲۴۰ نوبت</strong> مدیریت شد</div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک گلستان — <strong>۶ بیمار</strong> در صف</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>نوبت شماره <strong>۱۲</strong> به زودی</div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>کلینیک آرام‌بخش <strong>آنلاین</strong></div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>درمانگاه فاطمی — <strong>۲ بیمار</strong> ویزیت شدند</div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>میانگین رضایت بیماران: <strong>۹۴٪</strong></div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>مطب دکتر نوری — <strong>۸ ویزیت</strong> امروز</div>
+        <div class="ticker-item"><span class="ticker-dot green"></span>کلینیک بهار — <strong>بدون صف</strong></div>
+        <div class="ticker-item"><span class="ticker-dot blue"></span>زمان پاسخگویی: <strong>کمتر از ۵ دقیقه</strong></div>
+        <div class="ticker-item"><span class="ticker-dot purple"></span>درمانگاه حکیم — <strong>آنلاین</strong></div>
+    </div>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+    <!-- queue path SVG -->
+    <svg class="hero-queue-path" viewBox="0 0 1400 800" fill="none" preserveAspectRatio="xMidYMid slice">
+        <defs><linearGradient id="qp" x1="0" y1="0" x2="1400" y2="0"><stop stop-color="#3b82f6" stop-opacity=".18"/><stop offset="1" stop-color="#8b5cf6" stop-opacity=".18"/></linearGradient></defs>
+        <path d="M-40 650 Q180 650 300 480 Q420 310 600 310 Q780 310 850 480 Q920 650 1100 650 Q1220 650 1350 480 Q1440 360 1500 300" stroke="url(#qp)" stroke-width="2.5" stroke-dasharray="10 8" fill="none"/>
+        <circle cx="300" cy="480" r="6" fill="#3b82f6" opacity=".15"/>
+        <circle cx="600" cy="310" r="8" fill="#6366f1" opacity=".18"/>
+        <circle cx="850" cy="480" r="6" fill="#8b5cf6" opacity=".15"/>
+        <circle cx="1100" cy="650" r="5" fill="#a78bfa" opacity=".12"/>
+        <circle cx="1350" cy="480" r="7" fill="#3b82f6" opacity=".1"/>
+    </svg>
+
+    <!-- floating queue tickets -->
+    <div class="hero-ticket hero-ticket-1">
+        <span class="ticket-num">۱۲</span>
+        نوبت شما
+    </div>
+    <div class="hero-ticket hero-ticket-2">
+        <span class="ticket-num green">۰۳</span>
+        در حال ویزیت
+    </div>
+    <div class="hero-ticket hero-ticket-3">
+        <span class="ticket-num amber">۲۷</span>
+        پیامک ارسال شد
+    </div>
+    <div class="hero-ticket hero-ticket-4">
+        <span class="ticket-num">۰۸</span>
+        در انتظار
+    </div>
+
+    <div class="hero-content fade-up">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            سامانه مدیریت صف کلینیک
+        </div>
+        <h1>از صف‌های شلوغ<br>تا <span class="gradient">نظم هوشمند</span></h1>
+        <p class="hero-sub">
+            بیمارانتان دیگر در صف‌های طولانی معطل نمی‌مانند. صف‌نت با مدیریت هوشمند نوبت و اطلاع‌رسانی خودکار، نظم و آرامش را به کلینیک شما برمی‌گرداند.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('auth.login') }}" class="btn-primary">
+                شروع رایگان
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+            <a href="#features" class="btn-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                مشاهده امکانات
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<div class="stats-bar fade-up">
+    <div class="stat"><div class="stat-num loading" data-count="۱۲۰">—</div><div class="stat-label">کلینیک فعال</div></div>
+    <div class="stat"><div class="stat-num loading" data-count="۵۰,۰۰۰">—</div><div class="stat-label">نوبت ثبت‌شده</div></div>
+    <div class="stat"><div class="stat-num loading" data-count="۹۸٪">—</div><div class="stat-label">رضایت کاربران</div></div>
+</div>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section id="features">
+<div class="section">
+    <div class="section-header fade-up">
+        <div class="section-label">✦ امکانات</div>
+        <h2 class="section-title">هرآنچه برای مدیریت کلینیک نیاز دارید</h2>
+        <p class="section-desc">مجموعه‌ای کامل از ابزارهای حرفه‌ای که فرایند نوبت‌دهی کلینیک شما را متحول می‌کند.</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card fade-up">
+            <div class="feature-icon blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            </div>
+            <h3 class="feature-title">پذیرش سریع بیماران</h3>
+            <p class="feature-desc">ثبت اطلاعات بیمار و تخصیص شماره نوبت در چند ثانیه. بدون کاغذبازی، بدون معطلی، فقط یک کلیک.</p>
+        </div>
+        <div class="feature-card fade-up">
+            <div class="feature-icon purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <h3 class="feature-title">مدیریت صف هوشمند</h3>
+            <p class="feature-desc">مشاهده لحظه‌ای وضعیت صف، زمان تقریبی انتظار و فراخوانی خودکار بیماران بعدی.</p>
+        </div>
+        <div class="feature-card fade-up">
+            <div class="feature-icon green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <h3 class="feature-title">اطلاع‌رسانی پیامکی</h3>
+            <p class="feature-desc">ارسال خودکار پیامک تأیید نوبت، یادآوری مراجعه و اعلام نزدیک شدن نوبت به بیماران.</p>
+        </div>
+        <div class="feature-card fade-up">
+            <div class="feature-icon amber">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+            </div>
+            <h3 class="feature-title">داشبورد تحلیلی</h3>
+            <p class="feature-desc">گزارش‌های جامع از عملکرد کلینیک، آمار مراجعات، میانگین زمان انتظار و نمودارهای تعاملی.</p>
+        </div>
+        <div class="feature-card fade-up">
+            <div class="feature-icon rose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            </div>
+            <h3 class="feature-title">امنیت پیشرفته</h3>
+            <p class="feature-desc">احراز هویت چندسطحی، محدودیت نرخ درخواست، حفاظت CSRF و رمزنگاری اطلاعات حساس.</p>
+        </div>
+        <div class="feature-card fade-up">
+            <div class="feature-icon cyan">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3 class="feature-title">عملکرد بالا</h3>
+            <p class="feature-desc">بارگذاری سریع صفحات، پاسخ‌دهی لحظه‌ای و پشتیبانی از دسترسی همزمان کاربران متعدد.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ EQUIPPED CENTERS ══════════ -->
+<section id="equipped-centers">
+<div class="section">
+    <div class="section-header fade-up" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">✦ مراکز مجهز</div>
+        <h2 class="section-title">مطب‌هایی که به صف‌نت اعتماد کردند</h2>
+        <p class="section-desc" style="margin:0 auto;">نمونه‌ای از کلینیک‌ها و مراکز درمانی که سامانه صف‌نت در آن‌ها فعال است.</p>
+    </div>
+    <div class="clinics-slider">
+        <button class="clinics-nav clinics-prev" type="button" aria-label="مشاهده کلینیک قبلی">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button class="clinics-nav clinics-next" type="button" aria-label="مشاهده کلینیک بعدی">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="clinics-track" id="clinicsTrack">
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/1.webp" loading="lazy" decoding="async" alt="کلینیک آریا – استفاده کننده از سامانه مدیریت صف صف‌نت" width="600" height="600">
+            </div>
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/2.webp" loading="lazy" decoding="async" alt="مطب دکتر حسینی – صف هوشمند با صف‌نت" width="600" height="600">
+            </div>
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/5.webp" loading="lazy" decoding="async" alt="درمانگاه سینا – صف منظم و آرام با صف‌نت" width="600" height="600">
+            </div>
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/6.webp" loading="lazy" decoding="async" alt="کلینیک پارس – اطلاع‌رسانی پیامکی نوبت" width="600" height="600">
+            </div>
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/4.webp" loading="lazy" decoding="async" alt="کلینیک نور – کاهش زمان انتظار بیماران با صف‌نت" width="600" height="600">
+            </div>
+            <div class="clinic-card">
+                <img src="https://raw.githubusercontent.com/Alofte/SN/main/WaitingRoom/webp/3.webp" loading="lazy" decoding="async" alt="مطب دکتر احمدی – نمایش صف روی مانیتور سالن انتظار" width="600" height="600">
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ COMPARE ══════════ -->
+<section style="background:#fff; border-bottom:1px solid var(--slate-100);">
+<div class="section" style="padding-bottom:60px;">
+    <div class="section-header fade-up" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">✦ مقایسه</div>
+        <h2 class="section-title">قبل و بعد از صف‌نت</h2>
+        <p class="section-desc" style="margin:0 auto;">تفاوتی که صف‌نت در کلینیک شما ایجاد می‌کند.</p>
+    </div>
+    <div class="compare-grid">
+        <div class="compare-card before fade-up">
+            <div class="compare-header">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                بدون صف‌نت
+            </div>
+            <div class="compare-list">
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>بیماران مجبورند ساعت‌ها در مطب منتظر بمانند</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>شلوغی سالن و هزینه بالای مطب</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>نارضایتی شدید بیماران از زمان انتظار</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>مراجعه مکرر بیماران برای پیگیری نوبت</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>ثبت دستی نوبت‌ها روی کاغذ و دفتر</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>فشار کاری زیاد روی پرسنل پذیرش</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>نبود آمار و گزارش از عملکرد کلینیک</div>
+            </div>
+        </div>
+        <div class="compare-card after fade-up">
+            <div class="compare-header">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                با صف‌نت
+            </div>
+            <div class="compare-list">
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>انتظار بیماران خارج از مطب و استفاده مفید از زمانشان</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>محیط آرام و کاهش هزینه‌های مطب</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>رضایت بالای بیماران و افزایش مراجعه</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>اطلاع‌رسانی خودکار پیامکی به بیماران</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>مدیریت دیجیتال و بدون کاغذبازی</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>صف منظم، و کاهش ۵۰٪ فشار کاری تیم پذیرش</div>
+                <div class="compare-item"><span class="cmp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>گزارش‌های تحلیلی دقیق و لحظه‌ای</div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section id="how-it-works">
+<div class="section">
+    <div class="section-header fade-up" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">✦ نحوه کار</div>
+        <h2 class="section-title">در سه قدم ساده صف کلینیک را مدیریت کنید</h2>
+        <p class="section-desc" style="margin:0 auto;">فرایند کار با سامانه بسیار ساده است و نیازی به آموزش تخصصی ندارد.</p>
+    </div>
+    <div class="steps">
+        <div class="step fade-up">
+            <div class="step-num">۱</div>
+            <div class="step-body">
+                <h3>ثبت نام مراجعین</h3>
+                <p>منشی به‌سادگی نام افراد را به ترتیب ورود در سیستم ثبت می‌کند. هر نفر شماره نوبت خود را دریافت می‌کند و نیازی به ثبت‌نام پیچیده یا وارد کردن اطلاعات کامل نیست.</p>
+            </div>
+        </div>
+        <div class="step fade-up">
+            <div class="step-num">۲</div>
+            <div class="step-body">
+                <h3>نمایش صف روی مانیتور</h3>
+                <p>لیست افراد در انتظار به‌صورت زنده روی تلویزیون یا مانیتور سالن انتظار نمایش داده می‌شود. همه می‌بینند چند نفر جلویشان هست و تقریباً کی نوبتشان می‌رسد.</p>
+            </div>
+        </div>
+        <div class="step fade-up">
+            <div class="step-num">۳</div>
+            <div class="step-body">
+                <h3>فراخوانی نوبت بعدی</h3>
+                <p>با یک کلیک منشی، نوبت بعدی روی مانیتور اعلام می‌شود و نام نفر بعدی با شماره نوبتش به‌همراه پخش صدا نمایش داده می‌شود. صف منظم، بدون هرج‌ومرج.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ SHOWCASE ══════════ -->
+<section style="padding:0 28px 100px; max-width:1200px; margin:0 auto;">
+    <div class="showcase-wrap fade-up">
+        <div class="showcase-text">
+            <h2>داشبورد قدرتمند مدیریت صف</h2>
+            <p>تمام اطلاعات صف بیماران در یک نگاه. وضعیت لحظه‌ای، زمان انتظار و فراخوانی با یک کلیک.</p>
+            <div class="showcase-features">
+                <div class="showcase-feat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    مشاهده لحظه‌ای صف بیماران
+                </div>
+                <div class="showcase-feat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    تخمین هوشمند زمان انتظار
+                </div>
+                <div class="showcase-feat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    فراخوانی خودکار نفر بعدی
+                </div>
+                <div class="showcase-feat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    ارسال پیامک به بیمار
+                </div>
+            </div>
+        </div>
+        <div class="showcase-visual">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+                <svg width="28" height="28" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gs" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><rect width="64" height="64" rx="17" fill="url(#gs)"/><circle cx="17" cy="44" r="5" fill="#fff" opacity=".22"/><circle cx="31" cy="32" r="6.5" fill="#fff" opacity=".5"/><circle cx="46" cy="19" r="8.5" fill="#fff" opacity=".95"/></svg>
+                <h3 style="font-size:14px;font-weight:700;color:#fff;margin:0;">صف بیماران — امروز</h3>
+                <span style="margin-right:auto;font-size:11px;color:rgba(255,255,255,0.4);">۱۴۰۴/۱۱/۲۲</span>
+            </div>
+            <div class="mock-ui">
+                <div class="mock-row">
+                    <div class="mock-num active">۱</div>
+                    <div class="mock-info"><div class="mock-name">فاطمه احمدی</div><div class="mock-detail">دکتر محمدی · نوبت ۱۰:۳۰</div></div>
+                    <span class="mock-status active">در حال ویزیت</span>
+                </div>
+                <div class="mock-row">
+                    <div class="mock-num waiting">۲</div>
+                    <div class="mock-info"><div class="mock-name">علی رضایی</div><div class="mock-detail">دکتر محمدی · نوبت ۱۰:۴۵</div></div>
+                    <span class="mock-status waiting">در انتظار</span>
+                </div>
+                <div class="mock-row">
+                    <div class="mock-num waiting">۳</div>
+                    <div class="mock-info"><div class="mock-name">مریم حسینی</div><div class="mock-detail">دکتر محمدی · نوبت ۱۱:۰۰</div></div>
+                    <span class="mock-status waiting">در انتظار</span>
+                </div>
+                <div class="mock-row">
+                    <div class="mock-num next">۴</div>
+                    <div class="mock-info"><div class="mock-name">رضا کریمی</div><div class="mock-detail">دکتر محمدی · نوبت ۱۱:۱۵</div></div>
+                    <span class="mock-status next">پیامک ارسال شد</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TESTIMONIALS ══════════ -->
+<section id="testimonials">
+<div class="section">
+    <div class="section-header fade-up" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">✦ نظرات مشتریان</div>
+        <h2 class="section-title">مورد اعتماد کلینیک‌ها</h2>
+        <p class="section-desc" style="margin:0 auto;">نظر مدیران کلینیک‌هایی که از صف‌نت استفاده می‌کنند.</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="testimonial-text">«از وقتی صف‌نت رو راه‌اندازی کردیم، زمان انتظار بیماران به نصف رسیده و رضایت‌مندی به شکل محسوسی افزایش پیدا کرده.»</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6);">د</div>
+                <div><div class="testimonial-name">دکتر محمدی</div><div class="testimonial-role">مدیر کلینیک آریا</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="testimonial-text">«سیستم پیامکی صف‌نت خیلی هوشمندانه عمل می‌کنه. بیمارها دقیقاً قبل از نوبتشون پیامک می‌گیرن و دیگه ازدحام نداریم.»</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar" style="background:linear-gradient(135deg,#22c55e,#16a34a);">س</div>
+                <div><div class="testimonial-name">سارا نوری</div><div class="testimonial-role">مسئول پذیرش کلینیک پارس</div></div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="testimonial-text">«داشبورد تحلیلی صف‌نت بهمون کمک کرد نقاط ضعف مدیریت زمان رو شناسایی کنیم. الان بهره‌وری کلینیکمون ۴۰٪ بیشتر شده.»</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar" style="background:linear-gradient(135deg,#f59e0b,#ea580c);">ح</div>
+                <div><div class="testimonial-name">دکتر حسینی</div><div class="testimonial-role">مدیر کلینیک نور</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="faq">
+<div class="section">
+    <div class="section-header fade-up" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">✦ سؤالات متداول</div>
+        <h2 class="section-title">پاسخ به سؤالات شما</h2>
+        <p class="section-desc" style="margin:0 auto;">هرآنچه درباره صف‌نت باید بدانید.</p>
+    </div>
+    <div class="faq-grid">
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>صف‌نت دقیقاً چه کاری انجام می‌دهد؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">صف‌نت یک سامانه هوشمند مدیریت صف و نوبت‌دهی مخصوص کلینیک‌ها و مراکز درمانی است. با صف‌نت می‌توانید بیماران را پذیرش کنید، شماره نوبت اختصاص دهید، وضعیت صف را لحظه‌ای مشاهده کنید و از طریق پیامک بیماران را از نزدیک شدن نوبتشان مطلع سازید. همچنین داشبورد تحلیلی کاملی برای بررسی عملکرد کلینیک در اختیارتان قرار می‌گیرد.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا برای استفاده از صف‌نت نیاز به نصب نرم‌افزار خاصی هست؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">خیر. صف‌نت یک سامانه تحت وب است و تنها به یک مرورگر اینترنت نیاز دارید. هیچ نرم‌افزاری نیاز به نصب ندارد و از هر دستگاهی — کامپیوتر، لپ‌تاپ، تبلت یا موبایل — قابل دسترسی است.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>هزینه استفاده از صف‌نت چقدر است؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">صف‌نت پلن‌های متنوعی متناسب با اندازه و نیاز کلینیک شما ارائه می‌دهد. برای دریافت مشاوره رایگان و اطلاع از قیمت‌ها با تیم فروش ما تماس بگیرید. همچنین امکان استفاده آزمایشی رایگان وجود دارد تا پیش از خرید، سامانه را ارزیابی کنید.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا صف‌نت روی موبایل و تبلت کار می‌کند؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">بله، صف‌نت کاملاً ریسپانسیو (واکنش‌گرا) طراحی شده و روی تمام دستگاه‌ها از جمله موبایل، تبلت و کامپیوتر به‌درستی کار می‌کند. پرسنل پذیرش می‌توانند حتی با گوشی موبایل صف را مدیریت کنند.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>سیستم پیامکی صف‌نت چگونه کار می‌کند؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">صف‌نت به‌صورت خودکار در زمان‌های مشخصی به بیماران پیامک ارسال می‌کند: هنگام ثبت نوبت (تأیید)، نزدیک شدن نوبت (یادآوری)، و زمانی که نوبت بیمار فرا رسیده باشد. تمام پیامک‌ها قابل سفارشی‌سازی هستند و از پنل مدیریت قابل کنترل‌اند.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا اطلاعات بیماران در صف‌نت امن است؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">امنیت اطلاعات اولویت اصلی ماست. صف‌نت از رمزنگاری پیشرفته، احراز هویت چندسطحی، حفاظت CSRF، محدودیت نرخ درخواست و سیستم قفل حساب استفاده می‌کند. تمام اطلاعات بیماران به‌صورت رمزنگاری‌شده ذخیره و انتقال داده می‌شوند.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا صف‌نت برای مطب‌های کوچک هم مناسب است؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">قطعاً بله. صف‌نت برای مطب‌های تک‌پزشک تا کلینیک‌های بزرگ چندتخصصی طراحی شده. رابط کاربری ساده و بدون پیچیدگی آن باعث می‌شود حتی بدون دانش فنی بتوانید از آن استفاده کنید. پلن پایه مخصوص مطب‌های کوچک است.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>راه‌اندازی صف‌نت چقدر طول می‌کشد؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">راه‌اندازی صف‌نت بسیار سریع است. پس از ثبت‌نام، تنها کافی است اطلاعات کلینیک، پزشکان و ساعات کاری را وارد کنید. کل فرایند در کمتر از ۵ دقیقه انجام می‌شود و بلافاصله می‌توانید شروع به پذیرش بیماران کنید.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا پشتیبانی فنی ارائه می‌دهید؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">بله، تمام پلن‌ها شامل پشتیبانی فنی هستند. پلن پایه شامل پشتیبانی ایمیلی، پلن حرفه‌ای شامل پشتیبانی تلفنی و پلن سازمانی شامل پشتیبانی اختصاصی ۲۴ ساعته است. تیم پشتیبانی ما در روزهای کاری از ساعت ۸ تا ۲۰ پاسخ‌گوی شماست.</div></div>
+        </div>
+        <div class="faq-item fade-up">
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span>آیا امکان مدیریت چند کلینیک با یک حساب وجود دارد؟</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-a"><div class="faq-a-inner">بله، در پلن‌های حرفه‌ای و سازمانی امکان مدیریت چند کلینیک از یک پنل واحد وجود دارد. می‌توانید برای هر شعبه تنظیمات مجزا تعریف کنید و گزارش‌های تجمیعی یا تفکیکی دریافت نمایید. پلن سازمانی امکان کلینیک نامحدود را فراهم می‌کند.</div></div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-section">
+    <div class="cta-box fade-up">
+        <h2>آماده‌اید کلینیک خود را متحول کنید؟</h2>
+        <p>با یک تماس کوتاه، مشاوره رایگان بگیرید و ببینید صف‌نت چطور مدیریت شما را ساده می‌کند.</p>
+        <a href="tel:+989154351614" class="btn-white">
+            همین الان سفارش دهید
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </a>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="gf" x1="0" y1="0" x2="64" y2="64"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><rect width="64" height="64" rx="17" fill="url(#gf)"/><circle cx="17" cy="44" r="5" fill="#fff" opacity=".22"/><circle cx="31" cy="32" r="6.5" fill="#fff" opacity=".5"/><circle cx="46" cy="19" r="8.5" fill="#fff" opacity=".95"/></svg>
+                <span style="font-size:18px;font-weight:800;color:#fff;">صف‌نت</span>
+            </div>
+            <p>سامانه هوشمند مدیریت نوبت و صف کلینیک‌ها. طراحی شده برای سادگی، سرعت و اطمینان.</p>
+        </div>
+        <div class="footer-col">
+            <h4>دسترسی سریع</h4>
+            <a href="#features">امکانات</a>
+            <a href="#equipped-centers">مراکز مجهز</a>
+            <a href="#how-it-works">نحوه کار</a>
+            <a href="#faq">سؤالات متداول</a>
+            <a href="{{ url_for('auth.login') }}">ورود به پنل</a>
+        </div>
+        <div class="footer-col">
+            <h4>تماس با ما</h4>
+            <a href="tel:+989154351614">۰۹۱۵-۴۳۵-۱۶۱۴</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© ۱۴۰۵ صف‌نت — تمامی حقوق محفوظ است.</span>
+        <span>ساخته شده با ❤️ در ایران</span>
+    </div>
+</footer>
+
+<script>
+// Nav scroll effect + Floating CTA
+const nav = document.getElementById('nav');
+const floatingCta = document.getElementById('floatingCta');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+    // Show floating CTA after scrolling 300px
+    if (floatingCta) {
+        floatingCta.classList.toggle('visible', window.scrollY > 300);
+    }
+});
+
+// Intersection Observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Animated counter for stats (smoother)
+function animateStats() {
+    document.querySelectorAll('.stat-num').forEach(el => {
+        const target = el.getAttribute('data-count');
+        if (!target) return;
+        el.classList.remove('loading'); // remove shimmer
+        let frame = 0;
+        const totalFrames = 60;
+        const isPercent = target.includes('٪');
+        
+        // Convert Persian digits to English first, then remove non-digits
+        const persianToEnglish = s => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+        const numStr = persianToEnglish(target).replace(/[^\d]/g, '');
+        
+        const targetNum = parseInt(numStr) || 0;
+        const intToPersian = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+        const step = () => {
+            frame++;
+            const t = frame / totalFrames;
+            const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            const current = Math.round(targetNum * eased);
+
+            if (target.includes(',')) {
+                el.textContent = intToPersian(current).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (isPercent ? '٪' : '+');
+            } else if (isPercent) {
+                el.textContent = intToPersian(current) + '٪';
+            } else {
+                el.textContent = intToPersian(current) + '+';
+            }
+
+            if (frame < totalFrames) requestAnimationFrame(step);
+            else el.textContent = target + (isPercent ? '' : '+');
+        };
+        requestAnimationFrame(step);
+    });
+}
+
+// Initialize stats with ۰ on page load
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.stat-num').forEach(el => {
+        if (el.classList.contains('loading')) {
+            el.textContent = '۰';
+        }
+    });
+});
+
+const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateStats();
+            statsObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+const statsBar = document.querySelector('.stats-bar');
+if (statsBar) statsObs.observe(statsBar);
+
+// Parallax for hero queue path
+const heroEl = document.querySelector('.hero');
+const qPath = document.querySelector('.hero-queue-path');
+window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > (heroEl ? heroEl.offsetHeight + 200 : 900)) return;
+    if (qPath) qPath.style.transform = `translateY(${y * 0.25}px)`;
+}, { passive: true });
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// ─── Seamless Ticker Loop (JS-driven) ───
+(function() {
+    const track = document.querySelector('.ticker-track');
+    if (!track) return;
+    // measure original set width before cloning
+    const gap = 48;
+    const origWidth = track.scrollWidth;
+    // clone all items for seamless loop
+    const items = track.innerHTML;
+    track.innerHTML = items + items;
+    const setWidth = origWidth + gap; // distance for one full cycle
+    let offset = 0;
+    const speed = 0.5; // px per frame (~30px/s at 60fps)
+    let lastTime = 0;
+    function step(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = ts - lastTime;
+        lastTime = ts;
+        offset += speed * (dt / 16.67); // positive for RTL scroll (right to left)
+        if (offset >= setWidth) offset -= setWidth;
+        track.style.transform = 'translateX(' + offset + 'px)';
+        requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+})();
+
+// ─── Clinics slider (simple scroll-into-view, RTL-safe) ───
+(function() {
+    const track = document.getElementById('clinicsTrack');
+    const prev  = document.querySelector('.clinics-prev');
+    const next  = document.querySelector('.clinics-next');
+    if (!track || !prev || !next) return;
+
+    function cards() { return Array.from(track.querySelectorAll('.clinic-card')); }
+
+    function currentIndex() {
+        const rect = track.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const cs = cards();
+        let best = 0, bestDist = Infinity;
+        cs.forEach((card, i) => {
+            const r = card.getBoundingClientRect();
+            const cCenter = r.left + r.width / 2;
+            const d = Math.abs(cCenter - center);
+            if (d < bestDist) { bestDist = d; best = i; }
+        });
+        return best;
+    }
+
+    function scrollToIndex(i, behavior) {
+        const cs = cards();
+        if (i < 0) i = 0;
+        if (i > cs.length - 1) i = cs.length - 1;
+        cs[i].scrollIntoView({ behavior: behavior || 'smooth', block: 'nearest', inline: 'center' });
+        setTimeout(updateButtons, 450);
+    }
+
+    function updateButtons() {
+        const idx = currentIndex();
+        const total = cards().length;
+        prev.disabled = (idx <= 0);
+        next.disabled = (idx >= total - 1);
+    }
+
+    prev.addEventListener('click', () => scrollToIndex(currentIndex() - 1, 'smooth'));
+    next.addEventListener('click', () => scrollToIndex(currentIndex() + 1, 'smooth'));
+
+    let t;
+    track.addEventListener('scroll', () => {
+        clearTimeout(t);
+        t = setTimeout(updateButtons, 120);
+    }, { passive: true });
+
+    window.addEventListener('resize', updateButtons);
+    window.addEventListener('load', updateButtons);
+    setTimeout(updateButtons, 200);
+    setTimeout(updateButtons, 600);
+})();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1b2339599923ebf',t:'MTc4NDA0OTY2Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
